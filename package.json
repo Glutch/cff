@@ -4,11 +4,12 @@
   "dependencies": {
     "express": "*",
     "isomorphic-fetch": "*",
+    "next": "*",
+    "ninjadb": "^1.16.2",
     "react": "*",
     "react-dom": "*",
     "socket.io": "*",
-    "socket.io-client": "*",
-    "next": "*"
+    "socket.io-client": "*"
   },
   "scripts": {
     "dev": "node server.js",
