@@ -1,6 +1,39 @@
 import React, { Component } from 'react'
+import Body from '../components/body'
 import io from 'socket.io-client'
 import fetch from 'isomorphic-fetch'
+
+const style = {
+  form: {
+    flexWrap: 'wrap',
+    width: '50%',
+    padding: 50,
+    margin: 'auto'
+  },
+  input: {
+    flex: '1 1 0',
+    padding: 20,
+    background: '#fff',
+    fontSize: 16,
+    boxSizing: 'border-box',
+    border: '1px solid #ececec',
+    outline: 'none',
+    borderRadius: 0,
+    '-webkit-appearance': 'none',
+    '-moz-appearance': 'none',
+    appearance: 'none'
+  },
+  button: {
+    flex: '0 0 100%',
+    cursor: 'pointer'
+  },
+  row: {
+    flex: '1 1 0',
+    padding: 20,
+    margin: 1,
+    background: '#fff'
+  }
+}
 
 class HomePage extends Component {
   state = {
@@ -14,16 +47,9 @@ class HomePage extends Component {
   }
 
   componentDidMount() {
-    // document.body.style.background = '#ececec'
-    document.body.style.fontFamily = 'sans-serif'
     this.socket = io()
     this.socket.on('newCharacter', this.newCharacter)
     this.socket.on('characters', this.getAllCharacters)
-  }
-
-  componentWillUnmount() {
-    this.socket.off('character', this.newCharacter)
-    this.socket.close()
   }
 
   newCharacter = character => {
@@ -31,7 +57,7 @@ class HomePage extends Component {
   }
 
   getAllCharacters = characters => {
-    this.setState(state => ({ characters }))
+    this.setState({ characters })
   }
 
   createCharacter = evt => {
@@ -62,62 +88,31 @@ class HomePage extends Component {
 
     const { character, guild, server, region, characters, visible, buttonText } = this.state
     const { createCharacter} = this
-    const formStyle = {
-      display: visible ? 'flex' : 'none',
-      flexWrap: 'wrap',
-      width: '50%',
-      padding: 50,
-      margin: 'auto'
-    }
-    const inputStyle = {
-      flex: '1 1 0',
-      padding: 20,
-      background: '#fff',
-      fontSize: 16,
-      boxSizing: 'border-box',
-      border: '1px solid #ececec',
-      outline: 'none',
-      borderRadius: 0,
-      '-webkit-appearance': 'none',
-      '-moz-appearance': 'none',
-      appearance: 'none'
-    }
-    const buttonStyle = {
-      ...inputStyle,
-      flex: '0 0 100%',
-      cursor: 'pointer'
-    }
-    const rowStyle = {
-      flex: '1 1 0',
-      padding: 20,
-      margin: 1,
-      background: '#fff'
-    }
 
     return (
       <main>
 
-        <form style={formStyle} onSubmit={createCharacter}>
+        <form style={{ ...style.form, display: visible ? 'flex' : 'none' }} onSubmit={createCharacter}>
           <input
-            style={inputStyle}
+            style={style.input}
             onChange={evt => this.setState({ character: evt.target.value })}
             placeholder="Character"
             value={character}
           />
           <input
-            style={inputStyle}
+            style={style.input}
             onChange={evt => this.setState({ guild: evt.target.value })}
             placeholder="Guild"
             value={guild}
           />
           <input
-            style={inputStyle}
+            style={style.input}
             onChange={evt => this.setState({ server: evt.target.value })}
             placeholder="Server"
             value={server}
           />
           <select
-            style={inputStyle}
+            style={style.input}
             onChange={evt => this.setState({ region: evt.target.value })}
             value={region}
           >
@@ -127,16 +122,16 @@ class HomePage extends Component {
             <option value="China">China</option>
             <option value="Korea">Korea</option>
           </select>
-          <button style={buttonStyle}>{buttonText}</button>
+          <button style={{ ...style.button, ...style.input }}>{buttonText}</button>
         </form>
 
         <div>
           {characters.map(item =>
             <div key={item.id} style={{display: 'flex'}}>
-              <div style={rowStyle}>{item.character}</div>
-              <div style={rowStyle}>{item.guild}</div>
-              <div style={rowStyle}>{item.server}</div>
-              <div style={rowStyle}>{item.region}</div>
+              <div style={style.row}>{item.character}</div>
+              <div style={style.row}>{item.guild}</div>
+              <div style={style.row}>{item.server}</div>
+              <div style={style.row}>{item.region}</div>
             </div>
           )}
         </div>
