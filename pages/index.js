@@ -35,6 +35,14 @@ const style = {
   }
 }
 
+const CustomInput = ({ name, value } = props) =>
+  <input
+    style={style.input}
+    onChange={evt => this.setState({ [name]: evt.target.value })}
+    placeholder={name.toUpperCase()}
+    value={value}
+  />
+
 class HomePage extends Component {
   state = {
     buttonText: 'Add character',
@@ -93,24 +101,9 @@ class HomePage extends Component {
       <main>
 
         <form style={{ ...style.form, display: visible ? 'flex' : 'none' }} onSubmit={createCharacter}>
-          <input
-            style={style.input}
-            onChange={evt => this.setState({ character: evt.target.value })}
-            placeholder="Character"
-            value={character}
-          />
-          <input
-            style={style.input}
-            onChange={evt => this.setState({ guild: evt.target.value })}
-            placeholder="Guild"
-            value={guild}
-          />
-          <input
-            style={style.input}
-            onChange={evt => this.setState({ server: evt.target.value })}
-            placeholder="Server"
-            value={server}
-          />
+          <CustomInput name={"character"} value={character} />
+          <CustomInput name={"guild"} value={guild} />
+          <CustomInput name={"server"} value={server} />
           <select
             style={style.input}
             onChange={evt => this.setState({ region: evt.target.value })}
